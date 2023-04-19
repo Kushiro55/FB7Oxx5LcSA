@@ -1,38 +1,110 @@
-<!-- EDUCATIONAL PURPOSES ONLY -->
-<!-- This doesn't work with activated ADBlock extensions -->
+<!-- i was bored -->
+<!-- This might not work with active ADBlock extensions -->
 <!DOCTYPE html>
+
 <style>
 .caterpillarCigarette {
   border: none;
-  border-radius:25px;
-  background-color: #F0F0F0F0;    
+  position: absolute;
+  color: white;
+  font-weight: 600;
+  font-size: 28px;
   text-align: center;
-  display: block;
-  font-family:Consolas; 
-  text-align:left;
-  padding-left:40%; 
+  font-family: Consolas;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  padding-top:10px;
 }
+html, body {
+  background-image: url("robux.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+}
+
+
+button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+
+}
+.divimg {
+  background-image: url("https://i.redd.it/ki2tlww8buw71.jpg");
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  white-space: nowrap;
+  height: 155%;
+  top:0;
+  animation: type 6s steps(180, end);
+  z-index: 1;
+  margin: 0;
+}
+
+@keyframes type{ 
+  from { height: 0; } 
+} 
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-					<!-- Enable this button for custom inputs -->
- <!-- Button <input id="in"><button onclick="Jdg5u_E0Bgo()">dontclickme</button> -->
-<div class="caterpillarCigarette" id="out"></div>
+<script src="https://cdn.jsdelivr.net/gh/joeymalvinni/webrtc-ip/dist/bundle.dev.js"></script>
+<div id="main"></div>
+<button id="oops"> </button>
 <script>
-window.onload = function(){			//also disable this line
-			//<!--Enable  grey sections to process input query -->
-//function Jdg5u_E0Bgo(){
-$.get("http://ip-api.com/json/"+ /*document.getElementById("in").value+ */ "?fields=61439", function(data){
-var myArr=Object.keys(data);
-var myArr2=Object.values(data);
-let txt = "";
-	for(let i = 0; i < myArr.length; i++){
- 	txt +="\""+myArr[i]+"\" :"+" "+myArr2[i]+"<br>";
-  	};
-document.getElementById("out").innerHTML = txt;
+document.getElementById("oops").addEventListener("click", function() {
+  const audio = new Audio('caterpillarSmoking.mp3');
+  audio.play();
 
-}
-)
-}
+  const div = document.createElement("div");
+  div.id = "out";
+  div.className = "caterpillarCigarette divimg";
+  div.removeAttribute("hidden");
+  document.getElementById("main").append(div);
+
+  fetch("https://ipapi.co/json/")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Error retrieving IP address");
+      }
+      return response.json();
+    })
+    .then(data => {
+      const myArr = Object.keys(data);
+      const myArr2 = Object.values(data);
+      let txt = "";
+      for (let i = 0; i < myArr.length; i++) {
+        txt += `"${myArr[i]}" : ${myArr2[i]}<br>`;
+      }
+      getIPs().then(res => {
+        const radr = JSON.stringify(res);
+        let index = 0;
+        const intervalId = setInterval(() => {
+          if (index < txt.length) {
+            document.getElementById("out").innerHTML = `"ip" : ${radr}<br>${txt.substring(0, index + 1)}`;
+            index++;
+          } else {
+            clearInterval(intervalId);
+          }
+        }, 50);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      document.getElementById("out").innerHTML = "Error retrieving IP address";
+    });
+this.style.display = "none";
+});
 </script>
-
-
